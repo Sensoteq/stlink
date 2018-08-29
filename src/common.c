@@ -2198,16 +2198,6 @@ int stlink_write_flash(stlink_t *sl, stm32_addr_t addr, uint8_t* base, uint32_t 
                     write_flash_cr_psiz(sl, 0);
                 }
             }
-        } else {
-            /* L4 does not have a byte-write mode */
-            int voltage = stlink_target_voltage(sl);
-            if (voltage == -1) {
-                printf("Failed to read Target voltage\n");
-                return voltage;
-            } else if (voltage < 1710) {
-                printf("Target voltage (%d mV) too low for flash writes!\n", voltage);
-                return -1;
-            }
         }
 
         /* set programming mode */
