@@ -2081,14 +2081,11 @@ int stlink_write_flash(stlink_t *sl, stm32_addr_t addr, uint8_t* base, uint32_t 
                 if (voltage == -1) {
                     printf("Failed to read Target voltage\n");
                     return voltage;
-                } else if (voltage > 2700) {
+                } else {
                     printf("enabling 32-bit flash writes\n");
                     write_flash_cr_psiz(sl, 2);
-                } else {
-                    printf("Target voltage (%d mV) too low for 32-bit flash, using 8-bit flash writes\n", voltage);
-                    write_flash_cr_psiz(sl, 0);
                 }
-            }
+	    }
         }
 
         /* set programming mode */
