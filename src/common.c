@@ -836,15 +836,8 @@ int stlink_load_device_params(stlink_t *sl) {
     uint32_t chip_id;
     uint32_t flash_size;
 
-    stlink_chip_id(sl, &chip_id);
-    sl->chip_id = chip_id & 0xfff;
-    /* Fix chip_id for F4 rev A errata , Read CPU ID, as CoreID is the same for F2/F4*/
-    if (sl->chip_id == 0x411) {
-        uint32_t cpuid;
-        stlink_read_debug32(sl, 0xE000ED00, &cpuid);
-        if ((cpuid  & 0xfff0) == 0xc240)
-            sl->chip_id = 0x413;
-    }
+    chip_id = 0x0435;
+    sl->chip_id = chip_id;
 
     params = stlink_chipid_get_params(sl->chip_id);		// chipid.c
     if (params == NULL) {
@@ -1209,8 +1202,8 @@ void stlink_core_stat(stlink_t *sl) {
         DLOG("  core status: halted\n");
         return;
     default:
-        sl->core_stat = STLINK_CORE_STAT_UNKNOWN;
-        fprintf(stderr, "  core status: unknown\n");
+        sl->core_stat = STLINK_CORE_RUNNING;
+        DLOG("  core status: running\n");
     }
 }
 
