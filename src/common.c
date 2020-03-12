@@ -1202,8 +1202,8 @@ void stlink_core_stat(stlink_t *sl) {
         DLOG("  core status: halted\n");
         return;
     default:
-        sl->core_stat = STLINK_CORE_STAT_UNKNOWN;
-        fprintf(stderr, "  core status: unknown\n");
+        sl->core_stat = STLINK_CORE_RUNNING;
+        DLOG("  core status: running\n");
     }
 }
 
